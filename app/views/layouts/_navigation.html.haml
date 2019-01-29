@@ -1,8 +1,8 @@
-%nav.navbar.navbar-toggleable-md.navbar-light.bg-faded.fixed-top
+%nav.navbar.navbar-expand-md.navbar-light.bg-faded.fixed-top
   = link_to "#", class: "navbar-brand hidden-lg-up" do
     %h5 Clickbot
   - if user_signed_in?
-    %button.navbar-toggler.navbar-toggler-right{"type": "button", "data-toggle": "collapse", "data-target": "#navbarNav", "aria-controls": "navbarNav", "aria-expanded": "false", "aria-label": "Toggle navigation"}
+    %button.navbar-toggler.navbar-expand-right{"type": "button", "data-toggle": "collapse", "data-target": "#navbarNav", "aria-controls": "navbarNav", "aria-expanded": "false", "aria-label": "Toggle navigation"}
       %span.navbar-toggler-icon
   
     .collapse.navbar-collapse#navbarNav
