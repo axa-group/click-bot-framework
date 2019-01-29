@@ -1,0 +1,165 @@
+:javascript
+  mxBasePath = '/mxClient';
+  mxImageBasePath = '/mxClient/images';
+  mxLoadStylesheets = false;
+
+= javascript_include_tag "javascripts/mxClient"
+
+:css
+  body {
+    background: url('/mxClient/images/grid.gif');
+  }
+  div.base {
+    position: absolute;
+    overflow: hidden;
+    font-family: Arial;
+    font-size: 8pt;
+  }
+
+  main {
+    margin: 0 !important;
+    min-width: 100% !important;
+    min-height: 100% !important;
+  }
+
+  hr {
+    margin-top: 2px !important;
+    margin-bottom: 5px !important;
+  }
+	
+:javascript
+  mxGraph.prototype.htmlLabels = true;
+  
+  mxGraph.prototype.isWrapping = function(cell)
+  {
+  	return true;
+  };
+
+  // override createProperties function to simplify properties dialogue to required fields 
+  mxEditor.prototype.createProperties = function (cell)
+  {
+  	var model = this.graph.getModel();
+  	var value = model.getValue(cell);
+  	
+  	if (mxUtils.isNode(value))
+  	{
+  		// Creates a form for the user object inside
+  		// the cell
+  		var form = new mxForm('properties');
+  		
+  		// Adds a readonly field for the cell id
+  		var id = form.addText('ID', cell.getId());
+  		id.setAttribute('readonly', 'true');
+  						
+  		// Creates textareas for each attribute of the
+  		// user object within the cell
+  		var attrs = value.attributes;
+  		var texts = [];
+  		
+  		for (var i = 0; i < attrs.length; i++)
+  		{
+  			// Creates a textarea with more lines for
+  			// the cell label
+  			var val = attrs[i].value;
+  			texts[i] = form.addTextarea(attrs[i].nodeName, val,
+  				(attrs[i].nodeName == 'label') ? 4 : 2);
+  		}
+  		
+  		// Adds an OK and Cancel button to the dialog
+  		// contents and implements the respective
+  		// actions below
+  		
+  		// Defines the function to be executed when the
+  		// OK button is pressed in the dialog
+  		var okFunction = mxUtils.bind(this, function()
+  		{
+  			// Hides the dialog
+  			this.hideProperties();
+  			
+  			// Supports undo for the changes on the underlying
+  			// XML structure / XML node attribute changes.
+  			model.beginUpdate();
+  			try
+  			{
+  				// Creates an undoable change for each
+  				// attribute and executes it using the
+  				// model, which will also make the change
+  				// part of the current transaction
+  				for (var i=0; i<attrs.length; i++)
+  				{
+  					var edit = new mxCellAttributeChange(
+  						cell, attrs[i].nodeName,
+  						texts[i].value);
+  					model.execute(edit);
+  				}
+  			}
+  			finally
+  			{
+  				model.endUpdate();
+  			}
+  		});
+  		
+  		// Defines the function to be executed when the
+  		// Cancel button is pressed in the dialog
+  		var cancelFunction = mxUtils.bind(this, function()
+  		{
+  			// Hides the dialog
+  			this.hideProperties();
+  		});
+  		
+  		form.addButtons(okFunction, cancelFunction);
+  		
+  		return form.table;
+  	}
+
+  	return null;
+  };
+  
+  mxConstants.DEFAULT_HOTSPOT = 1;
+  
+  // Enables guides
+  mxGraphHandler.prototype.guidesEnabled = true;
+  
+    // Alt disables guides
+    mxGuide.prototype.isEnabledForEvent = function(evt)
+    {
+    	return !mxEvent.isAltDown(evt);
+    };
+  
+  // Enables snapping waypoints to terminals
+  mxEdgeHandler.prototype.snapToTerminals = true;
+
+  const TREE_XML_URL = "#{platform_tree_path(@platform)}";
+  
+  window.onbeforeunload = function() {
+
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", TREE_XML_URL, false );
+    xmlHttp.send( null );
+    var saved_xml = xmlHttp.responseText;
+    
+    var current_xml = editor.writeGraphModel();
+
+    if (saved_xml.length != current_xml.length) {
+      return mxResources.get('changesLost'); 
+    } else {
+      true;
+    }
+    
+  };
+
+  function onLoad() {
+  	editor = createEditor("#{asset_path('config/workfloweditor.xml')}");
+  }
+
+  $(document).ready(function() {
+    onLoad();
+  });
+  
+
+%table#splash{:height => "100%", :style => "background:white;position:absolute;top:0px;left:0px;z-index:4;", :width => "100%"}
+  %tr
+    %td{:align => "center", :valign => "middle"}
+      %img{:src => "/mxClient/images/loading.gif"}/
+#graph.base
+  / Graph Here

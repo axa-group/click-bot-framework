@@ -1,0 +1,50 @@
+%nav.navbar.navbar-toggleable-md.navbar-light.bg-faded.fixed-top
+  = link_to "#", class: "navbar-brand hidden-lg-up" do
+    %h5 Clickbot
+  - if user_signed_in?
+    %button.navbar-toggler.navbar-toggler-right{"type": "button", "data-toggle": "collapse", "data-target": "#navbarNav", "aria-controls": "navbarNav", "aria-expanded": "false", "aria-label": "Toggle navigation"}
+      %span.navbar-toggler-icon
+  
+    .collapse.navbar-collapse#navbarNav
+      %ul.navbar.navbar-nav.mr-auto
+        %li.nav-item
+          %span.float-left
+            = select_tag "", options_for_select(current_user.platforms.map{|kb| [kb.name, platform_url(kb.id)]}, @platform.present? && @platform.persisted? ? platform_url(@platform) : nil), class: "form-control select mr-sm-2", onchange: "window.location=$(this).val();", include_blank: "Select ..."
+          - if @platform.present? && @platform.persisted?
+            %span.float-left
+              - if params[:controller] == "platforms" && params[:action] == "show"
+                = link_to edit_platform_path(@platform), class: "btn btn-default" do
+                  %i.fa.fa-cog{style: "color: #464a4c;"}
+              - else
+                = link_to platform_path(@platform), class: "btn btn-default" do
+                  %i.fa.fa-edit{style: "color: #000000;"}
+        
+      %ul.navbar.navbar-nav
+        - if @platform.present? && @platform.persisted?
+          %li.nav-item{style: "padding-right: 20px"}
+            = simple_form_for(@platform, remote: true, html: { onsubmit: "$('#platform_decision_tree_xml').val(editor.writeGraphModel());" }) do |f|
+              = f.input :decision_tree_xml, as: "hidden"
+              = f.submit "Update Chatbot", class: "btn btn-primary", id: "update_chatbot_button", style: "width: 180px", data: { confirm: "You are about to overwrite the existing chatbot configuration on the server. This will update the chatbot's behaviour with immediate effect. Do you want to continue?" } 
+
+        - if current_user.role == "admin"
+          
+          %li.nav-item.dropdown
+            = link_to "Administration", "#", "id": "navbarDropdownMenuLink", "data-toggle": "dropdown", "aria-haspopup": "true", "aria-expanded": "false", class: "nav-link dropdown-toggle"
+            .dropdown-menu{"aria-labelledby": "navbarDropdownMenuLink"}
+              = link_to "Platforms", platforms_path, class: "dropdown-item"
+              = link_to "Off topics", admin_off_topics_path, class: "dropdown-item"
+              .dropdown-divider
+              = link_to "Users", admin_users_path, class: "dropdown-item"
+              .dropdown-divider
+              -#= link_to "Analytics", platform_analytics_path(@platform), class: "dropdown-item" if @platform.present? && @platform.persisted?
+              = link_to "User sessions", admin_user_sessions_path, class: "dropdown-item"
+              = link_to "Logs", admin_custom_loggers_path, class: "dropdown-item"
+
+      
+        %li.nav-item.dropdown
+          = link_to current_user, "#", "id": "navbarDropdownMenuLink", "data-toggle": "dropdown", "aria-haspopup": "true", "aria-expanded  ": "false", class: "nav-link dropdown-toggle"
+          .dropdown-menu{"aria-labelledby": "navbarDropdownMenuLink"}
+            = link_to "My account", edit_admin_user_path(current_user), class: "dropdown-item"
+            .dropdown-divider
+            = link_to "Log out", destroy_user_session_path, method: :delete, class: "dropdown-item"
+

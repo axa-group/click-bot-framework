@@ -1,0 +1,21 @@
+.container
+  %h3 Platforms
+  .row
+    .col-10
+
+      %table.table.table-striped
+        - @platforms.each do |p|
+          %tr
+            %td= link_to p.name, platform_path(p)
+            %td.pull-right
+              - if can? :edit, p
+                = link_to edit_platform_path(p) do
+                  %i.fa.fa-cog
+
+    .col-2
+      .list-group
+        - if can? :create, Platform
+          = link_to new_platform_path, class: "btn btn-primary" do
+            %i.fa.fa-plus-circle
+            Add
+

@@ -1,0 +1,194 @@
+<mxEditor defaultGroup="group" defaultEdge="edge">
+	<Array as="templates">
+		<add as="edge">
+			<Edge label="" description="">
+				<mxCell edge="1">
+					<mxGeometry as="geometry" relative="1"/>
+				</mxCell>
+			</Edge>
+		</add>
+		<add as="subprocess">
+			<Subprocess label="Node" description="" href="">
+				<mxCell vertex="1" style="rounded">		
+					<mxGeometry as="geometry" width="72" height="32"/>
+				</mxCell>
+			</Subprocess>
+		</add>
+	</Array>
+	<ui>
+		<resource basename="/mxClient/resources/app"/>
+	</ui>
+	<mxDefaultPopupMenu as="popupHandler">
+		<add as="cut" action="cut" icon="/mxClient/images/cut.gif"/>
+		<add as="copy" action="copy" icon="/mxClient/images/copy.gif"/>
+		<add as="paste" action="paste" icon="/mxClient/images/paste.gif"/>
+		<separator/>
+		<add as="delete" action="delete" icon="/mxClient/images/delete.gif" if="cell"/>
+		<separator/>
+		<add as="properties" action="showProperties" icon="/mxClient/images/properties.gif"/>
+	</mxDefaultPopupMenu>
+	<mxDefaultKeyHandler as="keyHandler">
+		<!-- <add as="8" action="collapse"/> -->
+		<add as="13" action="expand"/>
+		<add as="33" action="exitGroup"/>
+		<add as="34" action="enterGroup"/>
+		<add as="35" action="refresh"/>
+		<add as="36" action="home"/>
+		<add as="37" action="selectPrevious"/>
+		<add as="38" action="selectParent"/>
+		<add as="40" action="selectChild"/>
+		<add as="39" action="selectNext"/>
+		<add as="8" action="delete"/>
+		<add as="65" control="1" action="selectAll"/>
+		<add as="90" control="1" action="undo"/>
+		<add as="89" control="1" action="redo"/>
+		<add as="88" control="1" action="cut"/>
+		<add as="67" control="1" action="copy"/>
+		<add as="86" control="1" action="paste"/>
+		<add as="71" control="1" action="group"/>
+		<add as="85" control="1" action="ungroup"/>
+		<add as="113" action="edit"/>		
+		<add as="123" action="showProperties"/>
+		<add as="107" action="zoomIn"/>
+		<add as="109" action="zoomOut"/>
+	</mxDefaultKeyHandler>
+
+	<Array as="actions">
+		<add as="verticalTree"><![CDATA[
+			function (editor, cell)
+			{
+				cell = editor.graph.getDefaultParent();				
+				editor.treeLayout(cell, false);
+			}
+		]]></add>
+	</Array>
+
+	<ui>
+		<add as="graph" element="graph"
+			style="left:0px;right:0px;top:0px;bottom:0px"/>
+		<add as="status" element="status"
+			style="height:10px;bottom:20px;left:20px;right:20px"/>
+		<add as="toolbar" x="16" y="100" width="80" style="padding:5px;padding-top:8px;padding-right:0px;"/>
+	</ui>
+
+	<Array as="templates">
+		<add as="subprocess">
+			<Subprocess label="?" intentId="">
+				<mxCell vertex="1" style="rounded;fillColor=white">
+					<mxGeometry as="geometry" width="100" height="50"/>
+				</mxCell>
+			</Subprocess>
+		</add>
+	</Array>
+
+	<mxGraph as="graph" alternateEdgeStyle="verticalEdge" dropEnabled="1">
+		<add as="getTooltipForCell"><![CDATA[
+		function(cell)
+		{
+			var maxlen = 30;
+			var desc = cell.getAttribute('description');
+			if (desc == null || desc.length == 0)
+			{
+				desc = '';
+			}
+			else if (desc.length < maxlen)
+			{
+				desc = '<br>'+desc;
+			}
+			else
+			{
+				desc = '<br>'+desc.substring(0, maxlen)+'...';
+			}
+			return '<b>'+cell.getAttribute('label')+
+					'</b> ('+cell.getId()+')'+desc+
+					'<br>Edges: '+cell.getEdgeCount();
+		}
+	]]></add>
+
+	<add as="convertValueToString">
+		function(cell)
+		{
+			return cell.getAttribute('label');
+		}
+	</add>
+
+	<mxGraphModel as="model">
+		<add as="valueForCellChanged"><![CDATA[
+			function(cell, value)
+			{
+				var previous = null;
+				
+				if (isNaN(value.nodeType))
+				{
+					previous = cell.getAttribute('label');
+					cell.setAttribute('label', value);
+				}
+				else
+				{
+					previous = cell.value;
+					cell.value = value;
+				}			
+				return previous;
+			}
+		]]></add>
+
+		<root>
+			<Workflow label="Editor" description="" href="" id="0"/>
+			<Layer label="Default Layer">
+				<mxCell parent="0"/>
+			</Layer>
+		</root>
+
+	</mxGraphModel>
+
+	<mxStylesheet as="stylesheet">
+		<add as="defaultVertex">
+			<add as="shape" value="label"/>
+			<add as="perimeter" value="rectanglePerimeter"/>
+			<add as="labelBackgroundColor" value="white"/>
+			<add as="fontSize" value="11"/>
+			<add as="align" value="center"/>
+			<add as="verticalAlign" value="middle"/>
+			<add as="strokeColor" value="black"/>
+		</add>
+		<add as="defaultEdge">
+			<add as="shape" value="connector"/>
+			<add as="labelBackgroundColor" value="white"/>
+			<add as="rounded" value="1"/>
+			<add as="edgeStyle" value="elbowEdgeStyle"/>
+			<add as="endArrow" value="classic"/>
+			<add as="fontSize" value="11"/>
+			<add as="align" value="center"/>
+			<add as="verticalAlign" value="middle"/>
+			<add as="strokeColor" value="black"/>
+		</add>
+		<add as="verticalEdge">
+			<add as="elbow" value="vertical"/>
+		</add>
+		<add as="rounded">
+			<add as="rounded" value="1"/>
+		</add>
+	</mxStylesheet>
+
+	</mxGraph>
+	<mxDefaultToolbar as="toolbar">
+		<add as="select" mode="select" icon="/mxClient/images/awesome/fa-mouse-pointer.png"/>
+	  	<add as="pan" mode="pan" icon="/mxClient/images/awesome/fa-hand-paper-o.png"/>
+		<add as="undo" action="undo" icon="/mxClient/images/awesome/fa-undo.png"/>
+		<add as="redo" action="redo" icon="/mxClient/images/awesome/fa-redo.png"/>
+		<add as="Node" template="subprocess" icon="/mxClient/images/awesome/mi-check-box-outline-blank.png"/>
+		<add as="connect" mode="connect" icon="/mxClient/images/awesome/fa-chain.png"><![CDATA[
+			function (editor)
+			{
+				if (editor.defaultEdge != null)
+				{
+					editor.defaultEdge.style = null;
+				}
+			}
+		]]></add>
+		<add as="delete" action="delete" icon="/mxClient/images/awesome/feather-cross.png"/>
+		<add as="Tree Layout" action="verticalTree" icon="/mxClient/images/awesome/icomoon-tree.png"/>
+		<add as="zoomIn" action="zoomIn" icon="/mxClient/images/awesome/feather-zoom-in.png"/>
+		<add as="zoomOut" action="zoomOut" icon="/mxClient/images/awesome/feather-zoom-out.png"/>
+	</mxDefaultToolbar>
+</mxEditor>

@@ -1,0 +1,21 @@
+%h3 Log details
+
+%table.table.table-striped
+  %tbody
+    %tr
+      %td Started at
+      %td= @custom_logger.started_at.strftime("%Y-%m-%d %H:%M:%S")
+    %tr
+      %td Completed at
+      %td= @custom_logger.completed_at.strftime("%Y-%m-%d %H:%M:%S") rescue nil
+    %tr
+      %td Namespace
+      %td= @custom_logger.namespace
+    %tr
+      %td Message
+      %td= @custom_logger.message
+    %tr
+      %td Error message
+      %td 
+        - @custom_logger.error_messages.each_pair do |error_message, count|
+          = raw error_message.encode(Encoding::UTF_8, :invalid => :replace, :undef => :replace,  :replace => "").force_encoding("UTF-8").gsub("\n", "<br/>")

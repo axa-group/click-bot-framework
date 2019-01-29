@@ -1,0 +1,7 @@
+%tr.nested-fields
+  %td
+    = f.input :text, as: :string, label: false
+  %td{style: "width: 90px"}
+    %span.input-group-btn
+      = link_to_remove_association f, class: "btn btn-danger", title: "Delete" do
+        %i.fa.fa-trash

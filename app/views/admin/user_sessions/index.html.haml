@@ -1,0 +1,23 @@
+%h3
+  = pluralize(@user_sessions.count, 'active user session')
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th Started
+      %th Last interaction
+      %th Facebook user ID
+      %th Platform
+      %th Node
+      %th Off topic
+      %th
+  %tbody
+    - @user_sessions.each do |us|
+      %tr
+        %td= us.created_at.strftime("%Y-%m-%d %H:%M:%S")
+        %td= us.updated_at.strftime("%Y-%m-%d %H:%M:%S")
+        %td= us.facebook_user_id
+        %td= link_to us.platform.to_s, platform_path(us.platform)
+        %td= "#{us.platform.tree.get_node_by_id(us.node_id)['label'] rescue '-'} (#{us.node_id})"
+        %td= link_to us.off_topic, edit_admin_off_topic_path(us.off_topic) unless us.off_topic.blank?
+        %td= link_to "Destroy", admin_user_session_path(us), method: :delete, class: "btn btn-danger"

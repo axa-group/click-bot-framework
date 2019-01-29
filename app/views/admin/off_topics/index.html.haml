@@ -1,0 +1,22 @@
+.container
+  %h3 
+    Off topics
+
+  .row
+    .col-9
+      %table.table.table-striped
+        %thead
+          %tr
+            %th
+        - @off_topics.each do |ot|
+          %tr
+            %td= link_to ot.name, edit_admin_off_topic_path(ot)
+
+    .col-3
+      .list-group
+        = link_to new_admin_off_topic_path, class: "btn btn-primary" do
+          New off topic
+        %br
+        - training_in_progress = TrainClassifierJob::active?
+        = link_to train_admin_off_topics_path, method: :post, remote: true,  class: "btn btn-primary #{training_in_progress ? 'disabled' : nil}", id: "train_classifier_button", disabled: training_in_progress do
+          - (training_in_progress ? "Training ..." : "Train classifier")

@@ -1,0 +1,9 @@
+%h3 New user
+
+= simple_form_for([:admin, @user], html: { class: 'form-horizontal' }) do |form|
+  = form.input :email
+  = form.input :password
+  = form.input :password_confirmation
+  = form.input :role, collection: User::ROLES.map{|u| [u.to_s.titleize, u]}, include_blank: true
+  = form.submit "Save", class: "btn btn-primary"
+  = link_to "Cancel", admin_users_path, class: "btn"

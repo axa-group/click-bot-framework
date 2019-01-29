@@ -1,0 +1,30 @@
+= simple_form_for([:admin, off_topic], html: { class: 'form-horizontal' }) do |form|
+  
+  = form.input :name, required: false
+  = form.input :language_code, label: "Language", collection: [["English", "en"], ["French", "fr"], ["German", "de"]], include_blank: false
+  = form.input :action_hook, label: "Action", collection: OffTopic::ACTION_HOOKS, include_blank: true, hint: "Optional: select from a hard-coded list of actions", input_html: {onchange: "if ($(this).val() == '') {$('#confirmation_question').hide();$('#confirmation_question input').val('');} else {$('#confirmation_question').show();}"}
+  #confirmation_question{style: form.object.action_hook ? "" : "display:none"}
+    = form.input :confirmation, label: "Confirmation question", hint: "Optional: if provided, the user is asked confirmation before the action is triggered"
+  = form.input :response, label: "Response", required: false
+
+  %br
+  %h4 Training messages
+  %table.table
+    %tbody.training-messages
+      = form.simple_fields_for :training_messages, form.object.training_messages do |m|
+        = render 'training_message_fields', f: m
+  .links
+    = link_to_add_association form, :training_messages, data: {"association-insertion-node": "tbody.training-messages", "association-insertion-method": "append"}, class: "btn btn-secondary" do
+      %i.fa.fa-plus-circle
+      Add training message
+
+  %br
+
+  = form.submit "Save", class: "btn btn-primary"
+  = link_to "Cancel", admin_off_topics_path, class: "btn"
+
+
+  - unless @off_topic.new_record?
+    .float-right
+      = link_to "Delete", admin_off_topic_path(@off_topic), method: :delete, class: "btn btn-danger", data: { confirm: "This action will completely delete the off topic, including all training messages. Are you sure?" }
+

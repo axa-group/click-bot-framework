@@ -1,0 +1,27 @@
+!!!
+%html
+  %head
+    = action_cable_meta_tag
+    %meta{:name => "viewport", :content => "width=device-width, initial-scale=1.0"}
+    - title = "Click Bot Framework"
+    %title= content_for?(:title) ? yield(:title) : title
+    %meta{:name => "description", :content => "#{content_for?(:description) ? yield(:description) : 'Click Bot Framework'}"}
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => 'reload'
+    = stylesheet_link_tag "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    = javascript_include_tag "https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"
+    = javascript_include_tag 'application', 'data-turbolinks-track' => 'reload'
+    = favicon_link_tag 'favicon.ico'
+
+    = csrf_meta_tags
+  %body
+    %header
+      = render 'layouts/navigation'
+    %main{role: "main"}
+      = render 'layouts/messages'
+      = yield
+
+    - unless @no_footer
+      %footer.footer.mt-1{role: "footer"}
+        .container
+          %br
+          %p.small.pull-right= "0.5.0-#{Git::REVISION.to_s[0,7]}"

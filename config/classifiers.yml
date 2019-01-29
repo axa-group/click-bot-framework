@@ -1,0 +1,11 @@
+development:
+  classifiers_dir: "tmp/classifiers"
+  fast_text_path: "../fastText"
+
+test:
+  classifiers_dir: "tmp/classifiers"
+  fast_text_path: "../fastText"
+
+staging:
+  classifiers_dir: "tmp/classifiers"
+  fast_text_path: "../../../fastText"

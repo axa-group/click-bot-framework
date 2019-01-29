@@ -1,0 +1,15 @@
+.container
+  %h3 Users
+  .row
+    .col-10
+
+      %table.table.table-striped
+        - @users.each do |u|
+          %tr
+            %td= link_to u, edit_admin_user_path(u)
+
+    .col-2
+      .list-group
+        = link_to new_admin_user_path, class: "btn btn-primary" do
+          %i.fa.fa-plus-circle
+          Add

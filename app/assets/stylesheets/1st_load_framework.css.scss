@@ -1,0 +1,141 @@
+// import the CSS framework
+// Do not use *= require in Sass or your other stylesheets will not be able to access the Bootstrap mixins and variables.
+
+@import "bootstrap";
+
+
+// make all images responsive by default
+img {
+  @extend .img-fluid;
+  margin: 0 auto;
+}
+// override for the 'Home' navigation link
+.navbar-brand {
+  font-size: inherit;
+  }
+
+// THESE ARE EXAMPLES YOU CAN MODIFY
+// create your own classes
+// to make views framework-neutral
+.column {
+  @extend .col-md-6;
+  text-align: center;
+}
+.form {
+  @extend .col-md-6;
+}
+.form-centered {
+  @extend .col-md-6;
+  text-align: center;
+}
+.submit {
+  @extend .btn;
+  @extend .btn-primary;
+  @extend .btn-lg;
+}
+
+// apply styles to HTML elements
+// to make views framework-neutral
+main {
+  @extend .container;
+  margin-top: 100px; // accommodate the navbar
+}
+
+section {
+  @extend .row;
+  margin-top: 20px;
+}
+
+.bg-faded {
+  background-color: #fefefe;
+  border-top: 8px solid #ec1f1f; 
+  box-shadow: 1px 1px 1px #C0C0C0;
+  
+}
+
+.navbar-light .navbar-nav .nav-link {
+  color: #000000;
+}
+
+a.navbar-brand h5 {
+  color: white;
+}
+
+a.btn {
+  color: #000000;
+}
+
+a.btn-danger.btn, a.btn-warning.btn {
+  color: white;
+}
+
+input.btn-primary.btn, input.btn-secondary.btn {
+  color: #000000;
+}
+
+input.btn-primary, a.btn-primary, input.btn-secondary, a.btn-secondary {
+  background-color: white;
+  border-color: #000000;
+
+}
+
+input.btn-warning {
+  background-color: #f07662;
+  border-color: #f07662;
+}
+
+h3 {
+  margin: 10px 0px 40px 0px;
+  color: #000000;
+}
+
+.list-group-item.active {
+  background-color: #000000; 
+  border-color: #000000;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary,
+.btn-secondary:hover, .btn-secondary:focus, .btn-secondary:active, .btn-secondary.active, .open>.dropdown-toggle.btn-secondary {
+  background-color: #000000; 
+  color: white !important;
+}
+
+.bg-faded select {
+  border-color: #000000 !important; 
+}
+
+span.select2-container--default .select2-selection--single {
+    border-color: #000000 !important;   
+    height: 38px !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+  line-height: 34px !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow b {
+  margin-top: 2px !important;
+}
+
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+  background-color: #000000 !important;
+}
+
+i.fa.fa-cog {
+  color: #000000 !important;
+}
+
+.btn-primary.disabled, .disabled.submit, .btn-primary:disabled, .submit:disabled {
+  background-color: #eceeef !important;
+  border-color: grey !important;
+  color: black !important;
+}
+
+#update_chatbot_button.btn-primary:hover {
+  background-color: #ec1f1f !important;
+  border-color: #ec1f1f !important;
+}
+
+div.form-group.platform_decision_tree_xml {
+  margin-bottom: 0 !important;
+}

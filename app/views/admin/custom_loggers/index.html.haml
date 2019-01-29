@@ -1,0 +1,14 @@
+%h3 Logs
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th Date
+      %th Namespace
+      %th Message
+  %tbody
+    - @custom_loggers.each do |cl|
+      %tr
+        %td= link_to cl.created_at.strftime("%Y-%m-%d %H:%M:%S"), admin_custom_logger_path(cl)
+        %td= cl.namespace
+        %td= cl.message
