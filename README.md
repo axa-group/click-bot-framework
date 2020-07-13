@@ -1,3 +1,7 @@
+__Disclaimer:__ This repository is not maintained anymore!
+
+------
+
 # Click Bot Framework
 
 A robust, decision-tree backed chatbot framework to manage conversations via Facebook messenger. 
